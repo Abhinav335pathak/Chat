@@ -88,7 +88,7 @@ const getUserById = async (req, res) => {
   try {
     
 
-    const user = await User.findById(req.user.id).select("+avatar -password +wallpaper");
+    const user = await User.findById(req.user._id).select("+avatar -password +wallpaper");
     if (!user) return res.status(404).json({ message: "User not found" });
 
     res.json(user);
