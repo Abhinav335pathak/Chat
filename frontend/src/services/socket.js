@@ -1,7 +1,16 @@
 export const connectSocket = () => {
   const token = localStorage.getItem("token");
-  return new WebSocket(`ws://localhost:4000/ws?token=${token}`);
+
+  let baseUrl = import.meta.env.VITE_API_URL;
+
+  // Fallback for local development
+  if (!baseUrl) {
+    baseUrl = "http://localhost:4000";
+  }
+
+  const wsUrl = baseUrl
+    .replace("https://", "wss://")
+    .replace("http://", "ws://");
+
+  return new WebSocket(`${wsUrl}/ws?token=${token}`);
 };
-
-
-
