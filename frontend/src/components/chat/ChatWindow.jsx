@@ -9,7 +9,7 @@ import cutButton from "../../assets/cutButton.png";
 import star from "../../assets/star.png";
 import deletes from "../../assets/delete.png";
 // import useGetUser from "../../hooks/useGetUser";
-import useGetUser from "../../hooks/usegetUser.js";
+import { useGetUser } from "../../hooks/useGetUsers.js";
 
 const ChatWindow = ({ activeConversation, avatar }) => {
   const [messages, setMessages] = useState([]);
