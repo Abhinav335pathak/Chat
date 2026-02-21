@@ -1,5 +1,5 @@
-import { encryptMessage, decryptMessage } from "../utils/crypto";
-import { sendMessage as sendMessageApi } from "../services/api";
+import { encryptMessage, decryptMessage } from "../utils/crypto.js";
+import { sendMessage as sendMessageApi } from "../services/api.js";
 
 
 export const useSendMessage = (socketRef, activeConversationId, setText, setMessages) => {

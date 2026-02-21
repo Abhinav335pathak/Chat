@@ -1,14 +1,13 @@
 import react from "react";
 import "../../index.css";
 import setting from "../../assets/setting.png";
-import image from "../../assets/image.png"
+import image from "../../assets/image.png";
 import message from "../../assets/message.png";
 import fullscreen from "../../assets/fullscreen.png";
 import call from "../../assets/call.png";
 import status from "../../assets/status.png";
-
-
-
+import { useAuth } from "../../context/AuthContext.jsx";
+import { useGetUser } from "../../hooks/usegetUser.js";
 import { useGetUser } from "../../hooks/usegetUser";
 import { Routes, Route, Link, NavLink } from "react-router-dom";
 

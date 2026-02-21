@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { uploadStatus, getStatusFeed, getUserStatuses, markStatusViewed, deleteStatus } from '../services/api';
+import { uploadStatus, getStatusFeed, getUserStatuses, markStatusViewed, deleteStatus } from '../services/api.js';
 import { Plus, X, ChevronLeft, ChevronRight, Send, Camera, Trash2 } from 'lucide-react';
-import  Sidebar from "../components/layout/Sidebar";
+import  Sidebar from "../components/layout/Sidebar.jsx";
 export const Status = ({isMobile}) => {
   const [groupedFeed, setGroupedFeed] = useState([]);
   const [myStatuses, setMyStatuses] = useState([]);

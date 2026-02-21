@@ -1,5 +1,5 @@
 import React from "react";
-import Sidebar from "../components/layout/Sidebar";
+import Sidebar from "../components/layout/Sidebar.jsx";
 export const Call=({isMobile})=>{
     return(
         <div className="flex flex-row">

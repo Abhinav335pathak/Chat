@@ -6,10 +6,11 @@ import Logout from "./pages/Logout.jsx";
 import Conversation from "./pages/Conversation.jsx";
 import ProtectedRoute from "./components/common/ProtectedRoute.jsx";
 import { Routes, Route, Link, NavLink } from "react-router-dom";
-import { getConversations } from "./services/api";
-import { useChatContext } from "./context/ChatContext";
+import { getConversations } from "./services/api.js";
+import { useChatContext } from "./context/ChatContext.jsx";
 import {Settings} from "./pages/Setting.jsx";
 import {Profile} from "./pages/Profile.jsx";
+//fixed imports
 import {Media} from "./pages/Media.jsx";
 import {Status} from "./pages/Status.jsx";
 import {Call} from "./pages/Call.jsx";
@@ -17,7 +18,7 @@ import useIsMobile from "./hooks/useIsMobile.js";
 import SwipeWrapper from "./hooks/swipeWrapper.jsx";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
-import "../src/index.css";
+import "./index.css";
 
 const App = () => {
   const isMobile = useIsMobile();

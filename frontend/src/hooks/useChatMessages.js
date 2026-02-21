@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { getMessages } from "../services/api";
-import { decryptMessage } from "../utils/crypto";
+import { getMessages } from "../services/api.js";
+import { decryptMessage } from "../utils/crypto.js";
 
 export const useChatMessages = (activeConversationId, setMessages, setText) => {
 

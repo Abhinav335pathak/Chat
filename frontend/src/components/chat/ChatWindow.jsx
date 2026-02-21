@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useChatSocket } from "../../hooks/useChatSocket";
-import { useChatMessages } from "../../hooks/useChatMessages";
-import { useSendMessage } from "../../hooks/useSendMessage";
-import InputField from "./InputField";
-import ChatHeader from "./ChatHeader";
-import { deleteMessage } from "../../services/api";
+import { useChatSocket } from "../../hooks/useChatSocket.js";
+import { useChatMessages } from "../../hooks/useChatMessages.js";
+import { useSendMessage } from "../../hooks/useSendMessage.js";
+import InputField from "./InputField.jsx";
+import ChatHeader from "./ChatHeader.jsx";
+import { deleteMessage } from "../../services/api.js";
 import cutButton from "../../assets/cutButton.png";
 import star from "../../assets/star.png";
 import deletes from "../../assets/delete.png";
 // import useGetUser from "../../hooks/useGetUser";
-import useGetUser from "../../hooks/usegetUser";
+import useGetUser from "../../hooks/usegetUser.js";
 
 const ChatWindow = ({ activeConversation, avatar }) => {
   const [messages, setMessages] = useState([]);

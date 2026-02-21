@@ -1,6 +1,6 @@
 import React from "react";
-import { useChatContext } from "../../context/ChatContext";
-import { useGetUser } from "../../hooks/usegetUser";
+import { useChatContext } from "../../context/ChatContext.jsx";
+import { useGetUser } from "../../hooks/usegetUser.js";
 
 const ChatHeader = ({ activeConversation ,avatar}) => {
   const { setActiveConversation } = useChatContext();

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { createConversation, getAllUsers } from "../services/api";
+import { createConversation, getAllUsers } from "../services/api.js";
 import { useParams, useNavigate } from "react-router-dom";
 
 const Conversation = ({ activeConversation }) => {

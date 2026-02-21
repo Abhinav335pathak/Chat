@@ -1,9 +1,9 @@
 import React from "react";
-import useIsMobile from "../hooks/useIsMobile";
-import ChatList from "../components/chat/ChatList";
-import ChatWindow from "../components/chat/ChatWindow";
-import { useChatContext } from "../context/ChatContext";
-import Sidebar from "../components/layout/Sidebar";
+import useIsMobile from "../hooks/useIsMobile.js";
+import ChatList from "../components/chat/ChatList.jsx";
+import ChatWindow from "../components/chat/ChatWindow.jsx";
+import { useChatContext } from "../context/ChatContext.jsx";
+import Sidebar from "../components/layout/Sidebar.jsx";
 import ResizablePanel from "../components/hooks/ResizablePanel.jsx";
 import SwipeWrapper from"../hooks/swipeWrapper.jsx";
 

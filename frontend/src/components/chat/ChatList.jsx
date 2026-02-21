@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useChatContext } from "../../context/ChatContext";
-import { getConversations } from "../../services/api";
-import { useAuth } from "../../context/AuthContext";
-import { decryptMessage } from "../../utils/crypto";
+import { useChatContext } from "../../context/ChatContext.jsx";
+import { getConversations } from "../../services/api.js";
+import { useAuth } from "../../context/AuthContext.jsx";
+import { decryptMessage } from "../../utils/crypto.js";
 import { Link ,NavLink, useNavigate } from "react-router-dom";
 import newchat from "../../assets/new-chat.png";
 import more from "../../assets/more.png"

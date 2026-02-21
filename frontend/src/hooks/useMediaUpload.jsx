@@ -1,5 +1,5 @@
 import { useState } from "react";
-import uploadToCloudinary from "../services/upload";
+import uploadToCloudinary from "../services/upload.js";
 
 export const useMediaUpload = () => {
   const [uploading, setUploading] = useState(false);

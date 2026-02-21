@@ -1,5 +1,5 @@
 import React from 'react';
-import { register } from '../services/api';
+import { register } from '../services/api.js';
 import { useNavigate } from 'react-router-dom';
 import video from "../assets/Login.mp4"
 

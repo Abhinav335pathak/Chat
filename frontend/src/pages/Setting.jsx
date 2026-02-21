@@ -1,4 +1,4 @@
-import { useTheme } from "../context/themeContext";
+import { useTheme } from "../context/themeContext.jsx";
 
 export const Settings = () => {
   const { theme, toggleTheme } = useTheme();

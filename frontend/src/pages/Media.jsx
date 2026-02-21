@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getMedia, deleteMedia } from '../services/api';
+import { getMedia, deleteMedia } from '../services/api.js';
 import { X, ChevronLeft, ChevronRight, Trash2, Download, CheckCircle, Circle, Sun, Moon } from 'lucide-react';
 
 export const Media = () => {

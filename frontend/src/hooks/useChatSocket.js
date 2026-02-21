@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
-import { decryptMessage } from "../utils/crypto";
-import { connectSocket } from "../services/socket";
+import { decryptMessage } from "../utils/crypto.js";
+import { connectSocket } from "../services/socket.js";
 
 export const useChatSocket = (activeConversationId, setMessages) => {
   const socketRef = useRef(null);

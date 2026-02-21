@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUserById } from "../services/api";
+import { getUserById } from "../services/api.js";
 
 export const useGetUser = () => {
   const [localUser, setLocalUser] = useState(null);
