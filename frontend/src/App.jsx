@@ -16,7 +16,6 @@ import {Status} from "./pages/Status.jsx";
 import {Call} from "./pages/Call.jsx";
 import useIsMobile from "./hooks/useIsMobile.js";
 import SwipeWrapper from "./hooks/swipeWrapper.jsx";
-import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import "./index.css";
 
