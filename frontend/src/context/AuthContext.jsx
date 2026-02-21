@@ -47,7 +47,8 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
   const checkGoogleSession = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/api/auth/user`, {
+      const backendUrl = import.meta.env.VITE_BACKEND_API_URL || "http://localhost:4000";
+      const res = await fetch(`${backendUrl}/api/auth/user`, {
         credentials: "include"
       });
 
@@ -60,6 +61,7 @@ export const AuthProvider = ({ children }) => {
         setToken("google-oauth-session"); // dummy token just to mark authenticated
       }
     } catch (err) {
+      // Silently fail if backend is not available
     }
   };
 

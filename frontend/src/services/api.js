@@ -1,7 +1,7 @@
 import axios from "axios";
 import { encryptMessage } from "../utils/crypto.js";
 
-const API_BASE = import.meta.env.VITE_BACKEND_API_URL;
+const API_BASE = import.meta.env.VITE_BACKEND_API_URL || "http://localhost:4000";
 
 const api = axios.create({
   baseURL: API_BASE, // /api removed from here

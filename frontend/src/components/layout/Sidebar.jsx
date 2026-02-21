@@ -7,7 +7,7 @@ import fullscreen from "../../assets/fullscreen.png";
 import call from "../../assets/call.png";
 import status from "../../assets/status.png";
 import { useAuth } from "../../context/AuthContext.jsx";
-import { useGetUser } from "../../hooks/useGetUser";
+import { useGetUser } from "../../hooks/useGetUsers";
 
 import { Routes, Route, Link, NavLink } from "react-router-dom";
 
