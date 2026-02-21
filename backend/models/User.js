@@ -7,8 +7,11 @@ const userSchema = new mongoose.Schema({
   avatar: { type: String ,select:true},
   email: { type: String, required: true, unique: true },
   emailHash: { type: String, unique: true },
-  password: { type: String, required: true },
+  password: { type: String },
   lastactive: { type: Date, default: Date.now },
+  googleId: {
+      type: String,
+    },
   isEmailVerified: { type: Boolean, default: false },
   emailOtp: String,
   emailOtpExpire: Date,
@@ -23,7 +26,7 @@ userSchema.pre('save', function () {
 });
 
 userSchema.pre('save', async function () {
-  if (!this.isModified('password')) return;
+  if (!this.isModified('password') || !this.password) return;
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });

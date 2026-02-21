@@ -31,9 +31,10 @@ const ChatList = ({ activeConversation ,isMobile ,setavatar}) => {
     const load = async () => {
       try {
         const res = await getConversations();
+        const conversationArray = Array.isArray(res.data) ? res.data : res.data.conversations || [];
 
         const decrypted = await Promise.all(
-          res.data.map(async (conv) => {
+          conversationArray.map(async (conv) => {
             if (!conv.latestMessage?.ciphertext) return conv;
 
             const text = await decryptMessage(
@@ -78,7 +79,7 @@ const ChatList = ({ activeConversation ,isMobile ,setavatar}) => {
 
 
   return (
-    <div className={`${isMobile && activeConversation ? 'hidden md:block w-full' : `${activeConversation ? 'cursor-col-resize ' : 'w-full '} overflow-y-auto select-none w-full h-full border-4 border-emerald-950 dark:bg-[#161717]`} `}>
+    <div className={`${isMobile && activeConversation ? 'hidden md:block w-full md:h-full' : `${activeConversation ? 'cursor-col-resize ' : 'w-full '} overflow-y-auto select-none w-full h-screen md:h-full border-4 border-emerald-950 dark:bg-[#161717]`} `}>
       {/* ✅ New Chat Button */}
       <div className="w-full flex justify-end items-center gap-3 pl-4 dark:bg-[#1d1f1f]">
 
@@ -149,9 +150,9 @@ const ChatList = ({ activeConversation ,isMobile ,setavatar}) => {
             open ? "block" : "hidden"
           } ${isMobile ? "block ": "hidden"}`}
         >
-               <NavLink to="/">
+               <NavLink to="/status">
                    <li className="rounded-xl border-zinc-900 border-0 flex w-full items-center px-8 py-2 text-2xl text-bold hover:bg-stone-200 text-black dark:text-white dark:hover:bg-[#202222]">
-            new group
+            status
           </li>
           
 

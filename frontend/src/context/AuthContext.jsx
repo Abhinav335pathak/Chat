@@ -22,13 +22,53 @@ export const AuthProvider = ({ children }) => {
       }
     }
 
+    const params = new URLSearchParams(window.location.search);
+    const urlToken = params.get("token");
+    const urlUser = params.get("user");
+
+    if (urlToken && urlUser) {
+      try {
+        const userData = JSON.parse(decodeURIComponent(urlUser));
+        localStorage.setItem("token", urlToken);
+        localStorage.setItem("user", JSON.stringify(userData));
+        setToken(urlToken);
+        setUser(userData);
+        
+        
+        window.history.replaceState({}, document.title, window.location.pathname);
+      } catch (error) {
+        
+      }
+    }
+
     setLoading(false);
   }, []);
+
+  useEffect(() => {
+  const checkGoogleSession = async () => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/api/auth/user`, {
+        credentials: "include"
+      });
+
+      if (!res.ok) return;
+
+      const data = await res.json();
+
+      if (data && data.email) {
+        setUser(data);
+        setToken("google-oauth-session"); // dummy token just to mark authenticated
+      }
+    } catch (err) {
+    }
+  };
+
+  checkGoogleSession();
+}, []);
 
   const login = async (email, password) => {
     try {
       const res = await loginApi(email, password);
-      console.log("Login response:", res.data);
 
       const { token, ...user } = res.data;
 

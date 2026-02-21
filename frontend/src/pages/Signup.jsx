@@ -15,7 +15,7 @@ const Signup = () => {
     try {
       const response = await register(name, email, password);
       localStorage.setItem("otpToken", response.data.otpToken);
-      navigate('/verify-email');
+      navigate('/');
     } catch (error) {
       console.error('Registration failed:', error.response?.data || error.message);
     }

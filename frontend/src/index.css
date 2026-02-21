@@ -1,6 +1,5 @@
+@import "@fontsource/smooch-sans/500.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-
-import {@fontsource/smooch-sans/500.css};

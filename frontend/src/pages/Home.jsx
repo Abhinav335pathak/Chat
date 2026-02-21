@@ -5,10 +5,13 @@ import ChatWindow from "../components/chat/ChatWindow";
 import { useChatContext } from "../context/ChatContext";
 import Sidebar from "../components/layout/Sidebar";
 import ResizablePanel from "../components/hooks/ResizablePanel.jsx";
+import SwipeWrapper from"../hooks/swipeWrapper.jsx";
+
 
 const Home = () => {
   const isMobile = useIsMobile();
   // const [avatar , setavatar] =useState("");
+  const Wrapper = isMobile ? SwipeWrapper : React.Fragment;
   const { activeConversation,avatar,setavatar } = useChatContext();
 
   return (
@@ -17,9 +20,18 @@ const Home = () => {
       {!isMobile && <Sidebar />}
 
       {/* Chat list (resizable on desktop, full screen on mobile when no chat) */}
-      <ResizablePanel isMobile={isMobile} activeConversation={activeConversation}>
-        <ChatList isMobile={isMobile} activeConversation={activeConversation} setavatar={setavatar} />
-      </ResizablePanel>
+
+<ResizablePanel isMobile={isMobile} activeConversation={activeConversation}>
+  <Wrapper>
+    <ChatList
+      isMobile={isMobile}
+      activeConversation={activeConversation}
+      setavatar={setavatar}
+    />
+
+  </Wrapper>
+</ResizablePanel>
+
 
       {/* Chat window */}
       {!isMobile && (

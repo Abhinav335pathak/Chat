@@ -12,12 +12,10 @@ export const useGetUser = () => {
       if (!stored) return;
 
       const parsed = JSON.parse(stored);
-      console.log("Local user:", parsed);
       setLocalUser(parsed);
 
       fetchApiUser(parsed._id || parsed.id);
     } catch (err) {
-      console.error("LocalStorage error:", err);
       setError(err);
     }
   }, []);
@@ -25,10 +23,8 @@ export const useGetUser = () => {
   const fetchApiUser = async (userId) => {
     try {
       const res = await getUserById(userId);
-      console.log("API response:", res);
       setApiUser(res.data ?? res); // handles axios or fetch
     } catch (err) {
-      console.error("API fetch error:", err);
       setError(err);
     }
   };

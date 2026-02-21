@@ -5,31 +5,67 @@ const User = require('../models/User');
 
 const OTP_SECRET = process.env.OTP_SECRET;
 
+// const registerUser = async (req, res) => {
+//   const { name, email, password } = req.body;
+
+//   if (!name || !email || !password)
+//     return res.status(400).json({ message: 'All fields are required' });
+
+//   const userExists = await User.findOne({ email, isEmailVerified: true });
+//   if (userExists)
+//     return res.status(400).json({ message: 'User already exists' });
+
+//   const otp = generateOtp();
+
+//   const otpToken = jwt.sign(
+//     { name, email, password, otp },
+//     OTP_SECRET,
+//     { expiresIn: '5m' }
+//   );
+
+//   await sendEmailOtp(email, otp);
+
+//   res.json({
+//     message: 'OTP sent to email',
+//     otpToken
+//   });
+// };
 const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  try {
+    const { name, email, password } = req.body;
 
-  if (!name || !email || !password)
-    return res.status(400).json({ message: 'All fields are required' });
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
 
-  const userExists = await User.findOne({ email, isEmailVerified: true });
-  if (userExists)
-    return res.status(400).json({ message: 'User already exists' });
+    // Check if user already exists
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return res.status(400).json({ message: "User already exists" });
+    }
 
-  const otp = generateOtp();
+    // Create user directly
+    const user = await User.create({
+      name,
+      email,
+      password,
+      isEmailVerified: true, // since no OTP
+    });
 
-  const otpToken = jwt.sign(
-    { name, email, password, otp },
-    OTP_SECRET,
-    { expiresIn: '5m' }
-  );
+    res.status(201).json({
+      message: "User registered successfully",
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      token: generateToken(user._id),
+    });
 
-  await sendEmailOtp(email, otp);
-
-  res.json({
-    message: 'OTP sent to email',
-    otpToken
-  });
+  } catch (error) {
+    console.error("Register error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
 };
+
 
 
 const verifyEmailOtp = async (req, res) => {
@@ -66,24 +102,34 @@ const verifyEmailOtp = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-  const user = await User.findOne({ email });
-  if (!user)
-    return res.status(401).json({ message: 'Invalid email or password' });
+    const user = await User.findOne({ email });
+    if (!user)
+      return res.status(401).json({ message: 'Invalid email or password' });
 
-  if (!user.isEmailVerified)
-    return res.status(403).json({ message: 'Please verify your email first' });
+    if (!user.isEmailVerified)
+      return res.status(403).json({ message: 'Please verify your email first' });
 
-  if (await user.matchPassword(password)) {
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      token: generateToken(user._id),
-    });
-  } else {
-    res.status(401).json({ message: 'Invalid email or password' });
+    // Check if user is a Google OAuth user (no password)
+    if (user.googleId && !user.password) {
+      return res.status(403).json({ message: 'Please login with Google' });
+    }
+
+    if (password && await user.matchPassword(password)) {
+      res.json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        token: generateToken(user._id),
+      });
+    } else {
+      res.status(401).json({ message: 'Invalid email or password' });
+    }
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ message: 'Server error' });
   }
 };
 const generateToken = (id) => {

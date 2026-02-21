@@ -1,7 +1,7 @@
 export const connectSocket = () => {
   const token = localStorage.getItem("token");
 
-  let baseUrl = import.meta.env.VITE_API_URL;
+  let baseUrl = import.meta.env.VITE_BACKEND_API_URL;
 
   // Fallback for local development
   if (!baseUrl) {
