@@ -8,7 +8,7 @@ import call from "../../assets/call.png";
 import status from "../../assets/status.png";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { useGetUser } from "../../hooks/usegetUser.js";
-import { useGetUser } from "../../hooks/usegetUser";
+
 import { Routes, Route, Link, NavLink } from "react-router-dom";
 
 
