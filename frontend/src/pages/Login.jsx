@@ -12,7 +12,7 @@ const Login = () => {
   const [error, setError] = useState("");
 
   const handleGoogleLogin = () => {
-    const backendUrl = import.meta.env.VITE_BACKEND_API_URL;
+    const backendUrl = import.meta.env.VITE_BACKEND_API_URL || "http://localhost:4000";
     window.location.href = `${backendUrl}/api/auth/google`;
   };
 
