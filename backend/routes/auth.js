@@ -63,20 +63,20 @@ router.get('/auth/google',
 );
 
 router.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: `${process.env.FRONTEND_API_URL}/login` }),
+  passport.authenticate('google', { failureRedirect: `${process.env.VITE_FRONTEND_API_URL}/login` }),
   (req, res) => {
     try {
       const token = generateToken(req.user._id);
 
 
-      res.redirect(`${process.env.FRONTEND_API_URL}/?token=${token}&user=${encodeURIComponent(JSON.stringify({
+      res.redirect(`${process.env.VITE_FRONTEND_API_URL}/?token=${token}&user=${encodeURIComponent(JSON.stringify({
         _id: req.user._id,
         name: req.user.name,
         email: req.user.email,
         avatar: req.user.avatar
       }))}`);
     } catch (error) {
-      res.redirect(`${process.env.FRONTEND_API_URL}/login?error=auth_failed`);
+      res.redirect(`${process.env.VITE_FRONTEND_API_URL}/login?error=auth_failed`);
     }
   }
 );
