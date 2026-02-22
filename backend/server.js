@@ -43,7 +43,7 @@ const server = http.createServer(app);
 initWebSocket(server);
 
 app.use(cors({
-  origin: process.env.FRONTEND_API_URL ,
+  origin: process.env.VITE_FRONTEND_API_URL ,
   credentials: true,
 }));
 
