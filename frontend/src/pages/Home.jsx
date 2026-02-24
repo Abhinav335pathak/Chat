@@ -43,7 +43,7 @@ const Home = () => {
       {/* Mobile chat window (full screen when active) */}
       {isMobile && activeConversation && (
         <div className="absolute inset-0 bg-white z-50">
-          <ChatWindow activeConversation={activeConversation} isMobile={isMobile} />
+          <ChatWindow activeConversation={activeConversation} isMobile={isMobile} avatar={avatar}/>
         </div>
       )}
     </div>

@@ -15,7 +15,10 @@ const getMedia = async (req, res) => {
     }).sort({ createdAt: -1 });
 
     if (!media.length) {
-      return res.status(404).json({ message: "No media found" });
+      return res.status(200).json({
+        message: "No media found",
+        media: []
+      });
     }
 
     res.status(200).json({

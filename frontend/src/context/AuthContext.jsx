@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
 
     const params = new URLSearchParams(window.location.search);
     const urlToken = params.get("token");
-    const urlUser = params.get("user");
+    const urlUser = params.get("user");  
 
     if (urlToken && urlUser) {
       try {
@@ -60,6 +60,7 @@ export const AuthProvider = ({ children }) => {
         setUser(data);
         setToken("google-oauth-session"); // dummy token just to mark authenticated
       }
+      
     } catch (err) {
       // Silently fail if backend is not available
     }
@@ -90,6 +91,12 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateUser = (updatedUserData) => {
+    const merged = { ...user, ...updatedUserData };
+    localStorage.setItem("user", JSON.stringify(merged));
+    setUser(merged);
+  };
+
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -104,6 +111,7 @@ export const AuthProvider = ({ children }) => {
         token,
         login,
         logout,
+        updateUser,
         isAuthenticated: !!token,
         loading,
       }}

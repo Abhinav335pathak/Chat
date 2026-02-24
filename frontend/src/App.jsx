@@ -8,15 +8,14 @@ import ProtectedRoute from "./components/common/ProtectedRoute.jsx";
 import { Routes, Route, Link, NavLink } from "react-router-dom";
 import { getConversations } from "./services/api.js";
 import { useChatContext } from "./context/ChatContext.jsx";
-import {Settings} from "./pages/Setting.jsx";
+import {SettingsPage} from "./pages/Setting.jsx";
 import {Profile} from "./pages/Profile.jsx";
-//fixed imports
+import { Call } from "./pages/Call.jsx";
 import {Media} from "./pages/Media.jsx";
 import {Status} from "./pages/Status.jsx";
-import {Call} from "./pages/Call.jsx";
+
 import useIsMobile from "./hooks/useIsMobile.js";
 import SwipeWrapper from "./hooks/swipeWrapper.jsx";
-
 import "./index.css";
 
 const App = () => {
@@ -49,15 +48,15 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         {/* <Route path="/verify-email" element={<Verify />} /> */}
         <Route path="/logout" element={<Logout />} />
-         <Route path="/setting" element={<Settings />} />
+         <Route path="/setting" element={<SettingsPage isMobile={isMobile}/>} />
          <Route path="/profile" element={<Profile />} />
         
           <Route path="/status" element={<Status isMobile={isMobile }  activeConversations={activeConversation}/>} />
-          <Route path="/call" element={<Call isMobile={isMobile}/>}/>
+          <Route path="/call" element={<Call isMobile={isMobile}/>} />
 
-          <Route path="/media" element={<Media/>}/>
+          <Route path="/media" element={<Media isMobile={isMobile}/>} />
 
-        <Route path="/not-in/:userId" element={<Conversation activeConversations={activeConversation}/>}  />
+        <Route path="/not-in/:userId" element={<Conversation activeConversations={activeConversation} isMobile={isMobile}/>}  />
         <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>
               </Wrapper>

@@ -14,7 +14,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <AuthProvider>
       <ChatProvider>
         <ThemeProvider>
+       
         <App />
+       
         </ThemeProvider>
       </ChatProvider>
     </AuthProvider>

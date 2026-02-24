@@ -1,131 +1,131 @@
-const WebSocket = require("ws");
-const jwt = require("jsonwebtoken");
-const User = require("./models/User");
-const Conversation = require("./models/Conversation");
-const Message = require("./models/Message");
+// const WebSocket = require("ws");
+// const jwt = require("jsonwebtoken");
+// const User = require("./models/User");
+// const Conversation = require("./models/Conversation");
+// const Message = require("./models/Message");
 
-const initWebSocket = (server) => {
-  const wss = new WebSocket.Server({ server, path: "/ws" });
+// const initWebSocket = (server) => {
+//   const wss = new WebSocket.Server({ server, path: "/ws" });
 
-  const clients = new Map();
-  const lastActiveUpdate = new Map();
+//   const clients = new Map();
+//   const lastActiveUpdate = new Map();
 
-  wss.on("connection", async (ws, req) => {
-    try {
-      const params = new URLSearchParams(req.url.split("?")[1]);
-      const token = params.get("token");
+//   wss.on("connection", async (ws, req) => {
+//     try {
+//       const params = new URLSearchParams(req.url.split("?")[1]);
+//       const token = params.get("token");
 
-      if (!token) {
-        ws.close();
-        return;
-      }
+//       if (!token) {
+//         ws.close();
+//         return;
+//       }
 
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      const userId = decoded.id;
+//       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//       const userId = decoded.id;
 
-      clients.set(userId, ws);
-      lastActiveUpdate.set(userId, Date.now());
+//       clients.set(userId, ws);
+//       lastActiveUpdate.set(userId, Date.now());
 
-      console.log("✅ WS connected:", userId);
+//       console.log("✅ WS connected:", userId);
 
-      // ws.on("message", async (data) => {
-      //   const payload = JSON.parse(data.toString());
-      //   if (payload.type !== "message") return;
+//       // ws.on("message", async (data) => {
+//       //   const payload = JSON.parse(data.toString());
+//       //   if (payload.type !== "message") return;
 
-      //   const { conversation, ciphertext, iv } = payload;
+//       //   const { conversation, ciphertext, iv } = payload;
 
-      //   const msg = await Message.create({
-      //     conversation,
-      //     sender: userId,
-      //     ciphertext,
-      //     iv,
-      //   });
+//       //   const msg = await Message.create({
+//       //     conversation,
+//       //     sender: userId,
+//       //     ciphertext,
+//       //     iv,
+//       //   });
 
-      //   const populated = await msg.populate("sender", "name email avatar");
+//       //   const populated = await msg.populate("sender", "name email avatar");
 
-      //   const conv = await Conversation.findById(conversation);
-      //   conv.members.forEach((memberId) => {
-      //     const client = clients.get(memberId.toString());
-      //     if (client && client.readyState === WebSocket.OPEN) {
-      //       client.send(JSON.stringify(populated));
-      //     }
-      //   });
-      // });
-      //     ws.on("message", async (data) => {
-      //   const payload = JSON.parse(data.toString());
-      //   if (payload.type !== "message") return;
+//       //   const conv = await Conversation.findById(conversation);
+//       //   conv.members.forEach((memberId) => {
+//       //     const client = clients.get(memberId.toString());
+//       //     if (client && client.readyState === WebSocket.OPEN) {
+//       //       client.send(JSON.stringify(populated));
+//       //     }
+//       //   });
+//       // });
+//       //     ws.on("message", async (data) => {
+//       //   const payload = JSON.parse(data.toString());
+//       //   if (payload.type !== "message") return;
 
-      //   const { conversation, ciphertext, iv } = payload;
+//       //   const { conversation, ciphertext, iv } = payload;
 
-      //   const msg = await Message.create({
-      //     conversation,
-      //     sender: userId,
-      //     ciphertext,
-      //     iv,
-      //   });
+//       //   const msg = await Message.create({
+//       //     conversation,
+//       //     sender: userId,
+//       //     ciphertext,
+//       //     iv,
+//       //   });
 
-      //   const populated = await msg.populate("sender", "name email avatar");
+//       //   const populated = await msg.populate("sender", "name email avatar");
 
-      //   const conv = await Conversation.findById(conversation);
-      //   conv.members.forEach((memberId) => {
-      //     const client = clients.get(memberId.toString());
-      //     if (client && client.readyState === WebSocket.OPEN) {
-      //       client.send(JSON.stringify(populated));
-      //     }
-      //   });
-      // });
-ws.on("message", async (data) => {
-  try {
-    const payload = JSON.parse(data.toString());
-    if (payload.type !== "message") return;
+//       //   const conv = await Conversation.findById(conversation);
+//       //   conv.members.forEach((memberId) => {
+//       //     const client = clients.get(memberId.toString());
+//       //     if (client && client.readyState === WebSocket.OPEN) {
+//       //       client.send(JSON.stringify(populated));
+//       //     }
+//       //   });
+//       // });
+// ws.on("message", async (data) => {
+//   try {
+//     const payload = JSON.parse(data.toString());
+//     if (payload.type !== "message") return;
 
-    // ❌ REMOVE: Message.create(...) - It is already saved via the Controller
+//     // ❌ REMOVE: Message.create(...) - It is already saved via the Controller
     
-    // The payload coming from useSendMessage now contains the FULL populated message 
-    // including the _id and media generated by the API/Controller.
-    const messageToBroadcast = payload;
+//     // The payload coming from useSendMessage now contains the FULL populated message 
+//     // including the _id and media generated by the API/Controller.
+//     const messageToBroadcast = payload;
 
-    const conv = await Conversation.findById(messageToBroadcast.conversation);
-    if (!conv) return;
+//     const conv = await Conversation.findById(messageToBroadcast.conversation);
+//     if (!conv) return;
 
-    conv.members.forEach((memberId) => {
-      const memberIdStr = memberId.toString();
+//     conv.members.forEach((memberId) => {
+//       const memberIdStr = memberId.toString();
       
-      // OPTIONAL: Only send to OTHERS, not the sender 
-      // (This is safer if you update the sender's UI immediately via API response)
-      if (memberIdStr === userId) return; 
+//       // OPTIONAL: Only send to OTHERS, not the sender 
+//       // (This is safer if you update the sender's UI immediately via API response)
+//       if (memberIdStr === userId) return; 
 
-      const client = clients.get(memberIdStr);
-      if (client && client.readyState === WebSocket.OPEN) {
-        client.send(JSON.stringify(messageToBroadcast));
-      }
-    });
-  } catch (err) {
-    console.error("WS Message Error:", err.message);
-  }
-});
-      ws.on("close", async () => {
-        try {
-          clients.delete(userId);
-          lastActiveUpdate.delete(userId);
+//       const client = clients.get(memberIdStr);
+//       if (client && client.readyState === WebSocket.OPEN) {
+//         client.send(JSON.stringify(messageToBroadcast));
+//       }
+//     });
+//   } catch (err) {
+//     console.error("WS Message Error:", err.message);
+//   }
+// });
+//       ws.on("close", async () => {
+//         try {
+//           clients.delete(userId);
+//           lastActiveUpdate.delete(userId);
 
-          await User.findByIdAndUpdate(userId, {
-            lastWsDisconnect: new Date(),
-          });
+//           await User.findByIdAndUpdate(userId, {
+//             lastWsDisconnect: new Date(),
+//           });
 
-          console.log("❌ WS disconnected:", userId);
-        } catch (err) {
-          console.error("Failed to update lastWsDisconnect:", err.message);
-        }
-      });
+//           console.log("❌ WS disconnected:", userId);
+//         } catch (err) {
+//           console.error("Failed to update lastWsDisconnect:", err.message);
+//         }
+//       });
 
-    } catch (err) {
-      console.error("WS auth failed:", err.message);
-      ws.close();
-    }
-  });
+//     } catch (err) {
+//       console.error("WS auth failed:", err.message);
+//       ws.close();
+//     }
+//   });
 
-  console.log("🚀 WebSocket server running at ws://localhost:4000/ws");
-};
+//   console.log("🚀 WebSocket server running at ws://localhost:4000/ws");
+// };
 
-module.exports = initWebSocket;
+// module.exports = initWebSocket;

@@ -25,8 +25,8 @@ export const register = (name, email, password) =>
 export const login = (email, password) =>
   api.post("/api/auth/login", { email, password });
 
-export const getCurrentUser = () => 
-  api.get("/api/auth/me");
+// export const getCurrentUser = () => 
+//   api.get("/api/auth/me");
 
 export const logout = () => {
   localStorage.removeItem("token");
@@ -35,7 +35,7 @@ export const logout = () => {
 export const getUserById = (userId) => 
   api.get(`/api/users/${userId}`);
 
-export const getAllUsers = (conversationId) => 
+export const getUsersNotinChat = (conversationId) => 
   api.get(`/api/users/not-in/${conversationId}`);
 
 export const updateProfile = async (formData) => {
@@ -102,5 +102,12 @@ export const markStatusViewed = (statusId) => {
 export const deleteStatus = (statusId) => {
   return api.delete(`/api/statuses/${statusId}`);
 };
+
+
+
+export const updatewallpaper = async (wallpaper) => {
+  return api.post(`/api/users/wallpaper`, wallpaper);
+};
+
 
 export default api;

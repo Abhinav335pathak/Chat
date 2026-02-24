@@ -23,32 +23,54 @@ const searchUsers = async (req, res) => {
 };
 
 
+
 const uploadWallpaper = async (req, res) => {
   try {
+    const { wallpaper, wallpaperId } = req.body;
 
-    if (!req.file) {
-      return res.status(400).json({ message: "No file uploaded" });
-    }
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id,
+      { wallpaper, wallpaperId },
+      { new: true }
+    );
 
-    const user = await User.findById(req.user._id);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    user.wallpaper = req.file.path;
-
-    await user.save();
-
-    res.status(200).json({
-      message: "Wallpaper uploaded successfully",
-      wallpaper: user.wallpaper
+    // 🔥 Refresh session user
+    req.login(updatedUser, (err) => {
+      if (err) return res.status(500).json(err);
+      res.json(updatedUser);
     });
 
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Failed to upload wallpaper" });
+  } catch (err) {
+    res.status(500).json({ message: "Update failed" });
   }
 };
+
+// const uploadWallpaper = async (req, res) => {
+//   try {
+
+//     if (!req.file) {
+//       return res.status(400).json({ message: "No file uploaded" });
+//     }
+
+//     const user = await User.findById(req.user._id);
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+
+//     user.wallpaper = req.file.path;
+
+//     await user.save();
+
+//     res.status(200).json({
+//       message: "Wallpaper uploaded successfully",
+//       wallpaper: user.wallpaper
+//     });
+
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Failed to upload wallpaper" });
+//   }
+// };
 
 
 
@@ -56,23 +78,22 @@ const uploadWallpaper = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
   try {
-    const { userId } = req.params;
-    const uid = new mongoose.Types.ObjectId(userId);
+    const userId = req.user._id;
 
-    // Get all users who are already in conversation with this user
-    const connectedUserIds = await Conversation.distinct("members", {
+    const conversations = await Conversation.find({
       isGroup: false,
-      members: uid,
-    });
+      members: userId,
+    }).select("members");
 
-    // Remove self
-    const filteredIds = connectedUserIds.filter(id => !id.equals(uid));
+    const connectedUserIds = conversations.flatMap(conv =>
+      conv.members.filter(member => !member.equals(userId))
+    );
 
-    // Get users NOT in conversation
     const users = await User.find({
-      _id: { $nin: [...filteredIds, uid] },
+      _id: { $nin: [...connectedUserIds, userId] },
     }).select("-password");
 
+    
     res.status(200).json(users);
   } catch (err) {
     console.error(err);

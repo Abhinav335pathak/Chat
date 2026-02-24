@@ -8,7 +8,8 @@ const passport = require('passport');
 const session = require('express-session');
 
 
-const initWebSocket = require("./socket.js");
+// const initWebSocket = require("../socket/chat.js);
+const  initWebSocket  = require("./Socket/chat.js");
 const { initStatusCleanup } = require("./utils/statusCleanup");
 
 const connectDB = require("./config/db");
@@ -43,7 +44,7 @@ const server = http.createServer(app);
 initWebSocket(server);
 
 app.use(cors({
-  origin: process.env.FRONTEND_API_URL ,
+  origin: process.env.VITE_FRONTEND_API_URL ,
   credentials: true,
 }));
 

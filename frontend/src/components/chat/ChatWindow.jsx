@@ -104,7 +104,7 @@ const handleDelete = async () => {
 
 
   return (
-    <div className="relative flex flex-col h-full bg-gray-100">
+    <div className="relative flex flex-col h-full bg-gray-100 dark:bg-[#202222]">
 
       {/* Background image (behind chat) */}
       <div className="absolute inset-0 -z-10">
@@ -115,7 +115,7 @@ const handleDelete = async () => {
             className="w-full h-full object-cover opacity-10 bg-slate-500"
           />
         ) : (
-          <div className="w-full h-full bg-gray-300 animate-pulse opacity-10" />
+          <div className="w-full h-full bg-gray-300 dark:bg-[#202222] animate-pulse opacity-10" />
         )}
       </div>
 
@@ -224,7 +224,7 @@ const handleDelete = async () => {
       </div>
 
       {/* Input disabled when selecting */}
-      {!selectionMode && (
+      {!selectionMode && activeConversation && (
         <InputField
           text={text}
           setText={setText}

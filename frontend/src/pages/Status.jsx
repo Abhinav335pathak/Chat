@@ -99,7 +99,7 @@ export const Status = ({isMobile}) => {
     <div className="flex h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-white overflow-hidden">
       {!isMobile && <Sidebar />}
       {/* SIDEBAR */}
-      <aside className="w-full md:w-96 border-r border-zinc-200 dark:border-zinc-800 flex flex-col bg-white dark:bg-zinc-900">
+      <aside className="w-full lg:w-96 border-r border-zinc-200 dark:border-zinc-800 flex flex-col bg-white dark:bg-zinc-900">
         <div className="p-4 flex justify-between items-center bg-zinc-50 dark:bg-zinc-800/50">
           <h1 className="text-xl font-bold">Status</h1>
           <label className="p-2 bg-green-500 rounded-full cursor-pointer hover:scale-105 transition-transform shadow-lg">

@@ -1,33 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { updateProfile } from "../services/api.js"; // your api.js
+import { updateProfile } from "../services/api.js";
+import { useAuth } from "../context/AuthContext.jsx";
 
 export const Profile=()=> {
   const [name, setName] = useState("");
   const [avatar, setAvatar] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { user, updateUser } = useAuth();
 
-  // Load name from localStorage when component mounts
+  // Load name from user state when component mounts
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    if (storedUser?.name) {
-      setName(storedUser.name);
+    if (user?.name) {
+      setName(user.name);
     }
-  }, []);
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-         const formData = new FormData();
+      const formData = new FormData();
 
-  if (name) formData.append("name", name);
-  if (avatar) formData.append("avatar", avatar);
+      if (name) formData.append("name", name);
+      if (avatar) formData.append("avatar", avatar);
 
       const updatedUser = await updateProfile(formData);
 
-      // Update localStorage after successful update
-      localStorage.setItem("user", JSON.stringify(updatedUser));
+      // Update AuthContext user state
+      updateUser(updatedUser);
 
       alert("Profile updated successfully");
     } catch (err) {

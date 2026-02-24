@@ -5,31 +5,7 @@ const User = require('../models/User');
 
 const OTP_SECRET = process.env.OTP_SECRET;
 
-// const registerUser = async (req, res) => {
-//   const { name, email, password } = req.body;
 
-//   if (!name || !email || !password)
-//     return res.status(400).json({ message: 'All fields are required' });
-
-//   const userExists = await User.findOne({ email, isEmailVerified: true });
-//   if (userExists)
-//     return res.status(400).json({ message: 'User already exists' });
-
-//   const otp = generateOtp();
-
-//   const otpToken = jwt.sign(
-//     { name, email, password, otp },
-//     OTP_SECRET,
-//     { expiresIn: '5m' }
-//   );
-
-//   await sendEmailOtp(email, otp);
-
-//   res.json({
-//     message: 'OTP sent to email',
-//     otpToken
-//   });
-// };
 const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -137,8 +113,21 @@ const generateToken = (id) => {
     expiresIn: '30d',
   });
 };
+
+// const getProfile = async (req, res) => {
+//   try {
+//     const user = await User.findById(req.user._id).select("+avatar -password +wallpaper");
+//     if (!user) return res.status(404).json({ message: "User not found" });
+//     res.json(user);
+//   } catch (error) {
+//     console.error("Get profile error:", error);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
+
 module.exports = {
   registerUser,
   verifyEmailOtp,
-  loginUser
+  loginUser,
+  // getProfile
 };

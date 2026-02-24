@@ -12,6 +12,6 @@ const router = express.Router();
 router.post('/register', registerUser);
 router.post('/verify-email', verifyEmailOtp);
 router.post('/login', loginUser);
-// router.get('/profile', protect, getProfile);
+// router.get('/user', protect, getProfile);
 
 module.exports = router;

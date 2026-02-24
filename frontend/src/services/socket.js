@@ -5,7 +5,7 @@ export const connectSocket = () => {
 
   // Fallback for local development
   if (!baseUrl) {
-    baseUrl = "http://localhost:4000";
+    baseUrl = import.meta.env.VITE_BACKEND_API_URL || "http://localhost:4000";
   }
 
   const wsUrl = baseUrl

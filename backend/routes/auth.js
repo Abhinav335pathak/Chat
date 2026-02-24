@@ -17,7 +17,6 @@ passport.use(new GoogleStrategy({
       
       if (!user) {
 
-
         user = await User.create({
           googleId: profile.id,
           name: profile.displayName,
@@ -63,29 +62,31 @@ router.get('/auth/google',
 );
 
 router.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: `${process.env.FRONTEND_API_URL}/login` }),
+  passport.authenticate('google', { failureRedirect: `${process.env.VITE_FRONTEND_API_URL || 'http://localhost:5173'}/login` }),
   (req, res) => {
     try {
       const token = generateToken(req.user._id);
+      const frontendUrl = process.env.VITE_FRONTEND_API_URL || 'http://localhost:5173';
 
-
-      res.redirect(`${process.env.FRONTEND_API_URL}/?token=${token}&user=${encodeURIComponent(JSON.stringify({
+      res.redirect(`${frontendUrl}/?token=${token}&user=${encodeURIComponent(JSON.stringify({
         _id: req.user._id,
         name: req.user.name,
         email: req.user.email,
         avatar: req.user.avatar
       }))}`);
     } catch (error) {
-      res.redirect(`${process.env.FRONTEND_API_URL}/login?error=auth_failed`);
+      const frontendUrl = process.env.VITE_FRONTEND_API_URL || 'http://localhost:5173';
+      res.redirect(`${frontendUrl}/login?error=auth_failed`);
     }
   }
 );
 
 router.get('/auth/user', (req, res) => {
   if (req.user) {
+
     res.json(req.user);
   } else {
-    res.status(401).json({ message: 'Not authenticated' });
+    res.status(401).json({ message: 'Not authenticated gmail' });
   }
 });
 
